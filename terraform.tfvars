@@ -1,0 +1,2 @@
+prefix   = "test"
+location = "eastus"
