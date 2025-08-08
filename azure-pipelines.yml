@@ -16,11 +16,11 @@ steps:
     inputs:
       provider: 'azurerm'
       command: 'init'
+      backendAzureRmUseEntraIdForAuthentication: false
       backendServiceArm: 'Azure subscription 1(360e0ea4-2134-44ec-ae92-0602fee6c212)'
-      backendAzureRmStorageAccountName: 'ayushtestterraform'
+      backendAzureRmStorageAccountName: 'ayushbackendtfstate'
       backendAzureRmContainerName: 'tfstate'
       backendAzureRmKey: 'prod.terraform.tfstate'
-
   - task: TerraformTask@5
     displayName: tf validate
     inputs:
