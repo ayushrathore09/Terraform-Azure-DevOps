@@ -16,7 +16,7 @@ steps:
     inputs:
       provider: 'azurerm'
       command: 'init'
-      backendAzureRmUseIdTokenGeneration: true
+      backendAzureRmUseIdTokenGeneration: false
       backendServiceArm: 'Azure subscription 1(360e0ea4-2134-44ec-ae92-0602fee6c212)'
       backendAzureRmStorageAccountName: 'ayushtestterraform'
       backendAzureRmContainerName: 'tfstate'
