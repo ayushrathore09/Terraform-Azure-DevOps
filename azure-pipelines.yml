@@ -59,7 +59,7 @@ steps:
     displayName: archive files
     inputs:
       rootFolderOrFile: '$(Build.SourcesDirectory)'
-      includeRootFolder: true
+      includeRootFolder: false
       archiveType: 'zip'
       archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
       replaceExistingArchive: true
@@ -75,7 +75,7 @@ steps:
     displayName: extract artifacts
     inputs:
       archiveFilePatterns: '_$(BuildDefinitionName)/$(Build.BuildId)-build/$((Build.BuildId).zip'
-      destinationFolder: '"$(System.DefaultWorkingDirectory)"'
+      destinationFolder: "$(System.DefaultWorkingDirectory)/"
       cleanDestinationFolder: true
       overwriteExistingFiles: false
 
