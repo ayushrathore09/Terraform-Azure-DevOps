@@ -23,11 +23,15 @@ steps:
       provider: 'azurerm'
       command: 'init'
       backendAzureRmUseEntraIdForAuthentication: false
-      backendAzureRmUseCliFlagsForAuthentication: true
       backendServiceArm: 'Azure subscription 1(360e0ea4-2134-44ec-ae92-0602fee6c212)'
       backendAzureRmStorageAccountName: 'ayushbackendtfstate'
       backendAzureRmContainerName: 'tfstate'
       backendAzureRmKey: 'prod.terraform.tfstate'
+    env:
+      ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
+      ARM_TENANT_ID: $(ARM_TENANT_ID)
+      ARM_CLIENT_ID: $(ARM_CLIENT_ID)
+      ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)  
       
   - task: TerraformTask@5
     displayName: tf validate
