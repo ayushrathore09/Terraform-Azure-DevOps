@@ -23,6 +23,7 @@ steps:
       provider: 'azurerm'
       command: 'init'
       backendAzureRmUseEntraIdForAuthentication: false
+      backendAzureRmUseCliFlagsForAuthentication: true
       backendServiceArm: 'Azure subscription 1(360e0ea4-2134-44ec-ae92-0602fee6c212)'
       backendAzureRmStorageAccountName: 'ayushbackendtfstate'
       backendAzureRmContainerName: 'tfstate'
