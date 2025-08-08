@@ -70,3 +70,19 @@ steps:
       PathtoPublish: '$(Build.ArtifactStagingDirectory)'
       ArtifactName: '$(Build.BuildId)-build'
       publishLocation: 'Container'
+
+  - task: ExtractFiles@1
+    displayName: extract artifacts
+    inputs:
+      archiveFilePatterns: '_$(BuildDefinitionName)/$(Build.BuildId)-build/$((Build.BuildId).zip'
+      destinationFolder: '"$(System.DefaultWorkingDirectory)"'
+      cleanDestinationFolder: true
+      overwriteExistingFiles: false
+
+  - task: TerraformTask@5
+    displayName: tf apply
+    inputs:
+      provider: 'azurerm'
+      command: 'apply'
+      commandOptions: '--auto-approve'
+      environmentServiceNameAzureRM: 'Azure subscription 1(360e0ea4-2134-44ec-ae92-0602fee6c212)'
