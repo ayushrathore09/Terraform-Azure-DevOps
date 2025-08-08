@@ -71,13 +71,13 @@ steps:
       ArtifactName: '$(Build.BuildId)-build'
       publishLocation: 'Container'
 
-  - task: ExtractFiles@1
-    displayName: extract artifacts
-    inputs:
-      archiveFilePatterns: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
-      destinationFolder: "$(System.DefaultWorkingDirectory)/"
-      cleanDestinationFolder: true
-      overwriteExistingFiles: false
+  # - task: ExtractFiles@1
+  #   displayName: extract artifacts
+  #   inputs:
+  #     archiveFilePatterns: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+  #     destinationFolder: "$(System.DefaultWorkingDirectory)/"
+  #     cleanDestinationFolder: true
+  #     overwriteExistingFiles: false
 
   - task: TerraformTask@5
     displayName: tf apply
