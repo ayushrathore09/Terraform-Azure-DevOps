@@ -74,7 +74,7 @@ steps:
   - task: ExtractFiles@1
     displayName: extract artifacts
     inputs:
-      archiveFilePatterns: _$(BuildDefinitionName)/$(Build.BuildId)-build/$((Build.BuildId).zip
+      archiveFilePatterns: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
       destinationFolder: "$(System.DefaultWorkingDirectory)/"
       cleanDestinationFolder: true
       overwriteExistingFiles: false
