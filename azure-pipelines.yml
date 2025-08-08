@@ -21,6 +21,7 @@ steps:
       backendAzureRmStorageAccountName: 'ayushbackendtfstate'
       backendAzureRmContainerName: 'tfstate'
       backendAzureRmKey: 'prod.terraform.tfstate'
+      
   - task: TerraformTask@5
     displayName: tf validate
     inputs:
