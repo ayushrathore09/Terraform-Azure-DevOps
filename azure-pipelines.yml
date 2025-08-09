@@ -71,18 +71,20 @@ steps:
       ArtifactName: '$(Build.BuildId)-build'
       publishLocation: 'Container'
 
-  - task: TerraformTask@5
-    displayName: tf apply
-    inputs:
-      provider: 'azurerm'
-      command: 'apply'
-      commandOptions: '--auto-approve'
-      environmentServiceNameAzureRM: 'Azure subscription 1(360e0ea4-2134-44ec-ae92-0602fee6c212)'
+      
+
+  # - task: TerraformTask@5
+  #   displayName: tf apply
+  #   inputs:
+  #     provider: 'azurerm'
+  #     command: 'apply'
+  #     commandOptions: '--auto-approve'
+  #     environmentServiceNameAzureRM: 'Azure subscription 1(360e0ea4-2134-44ec-ae92-0602fee6c212)'
  
-  - task: TerraformTask@5
-    displayName: tf destroy
-    inputs:
-      provider: 'azurerm'
-      command: 'destroy'
-      commandOptions: '--auto-approve'
-      environmentServiceNameAzureRM: 'Azure subscription 1(360e0ea4-2134-44ec-ae92-0602fee6c212)'
+  # - task: TerraformTask@5
+  #   displayName: tf destroy
+  #   inputs:
+  #     provider: 'azurerm'
+  #     command: 'destroy'
+  #     commandOptions: '--auto-approve'
+  #     environmentServiceNameAzureRM: 'Azure subscription 1(360e0ea4-2134-44ec-ae92-0602fee6c212)'
