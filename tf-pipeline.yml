@@ -1,0 +1,26 @@
+trigger:
+  branches:
+    include:
+      #- main
+      - dev
+  
+pool: 
+  name: default
+  demands: agent.name -equals ayushagent  #strictly to run on specific agent
+
+variables:
+  terraformDir: 'terraform'
+
+stages:
+  - stage: init
+    displayName: "Terraform Init"
+    jobs:
+      - job: terraform init
+        steps:
+          - checkout: self
+          - script: |
+              terraform init
+              
+
+
+
