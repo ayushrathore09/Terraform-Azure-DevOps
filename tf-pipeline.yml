@@ -12,17 +12,27 @@ variables:
   terraformDir: 'terraform'
 
 stages:
-  - stage: init
-    displayName: "Terraform Init"
-    jobs:              # each stage can have multiple jobs can be run in parallel or 
+  - stage: tf plan
+    displayName: "Terraform plan"
+    jobs:   # each stage can have multiple jobs can be run in parallel or 
       - job: terraform_init
         steps:
           - checkout: self
           - script: |
               terraform init
+
+      - job: terraform_fmt
+        steps: 
+          - checkout: self
+          - script: |
               terraform fmt -check
+
+      - job: terraform_validate
+        dependsOn: terraform_init
+        steps:
+          - checkout: self
+          - script: |
               terraform validate
-
-
+              
 
 
