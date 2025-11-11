@@ -14,12 +14,14 @@ variables:
 stages:
   - stage: init
     displayName: "Terraform Init"
-    jobs:
+    jobs:              # each stage can have multiple jobs can be run in parallel or 
       - job: terraform_init
         steps:
           - checkout: self
           - script: |
               terraform init
+              terraform fmt -check
+              terraform validate
 
 
 

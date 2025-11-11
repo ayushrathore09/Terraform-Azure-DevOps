@@ -1,4 +1,4 @@
 prefix   = "test"
 location = "eastus"
-username= "testuser"
+username = "testuser"
 password = "testpassword1234@"
