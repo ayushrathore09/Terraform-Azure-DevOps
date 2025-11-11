@@ -8,11 +8,8 @@ pool:
   name: default
   demands: agent.name -equals ayushagent  #strictly to run on specific agent
 
-variables:
-  terraformDir: 'terraform'
-
 stages:
-  - stage: tf plan
+  - stage: tf_plan
     displayName: "Terraform plan"
     jobs:   # each stage can have multiple jobs can be run in parallel or 
       - job: terraform_init
