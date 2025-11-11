@@ -15,12 +15,12 @@ stages:
   - stage: init
     displayName: "Terraform Init"
     jobs:
-      - job: terraform init
+      - job: terraform_init
         steps:
           - checkout: self
           - script: |
               terraform init
-              
+
 
 
 
