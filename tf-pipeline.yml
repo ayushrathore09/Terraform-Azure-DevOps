@@ -17,6 +17,17 @@ stages:
           - checkout: self
           - script: |
               terraform init
+         
+          # publish .terraform and .terraform.lock.hcl as pipeline artifacts
+          - task: PublishPipelineArtifacts@1
+            inputs:
+              targetPath: '$(System.DefaultWorkingDirectory)/.terraform'
+              artifact: 'terraform_init_artifact'
+
+          - task: PublishPipelineArtifact@1
+            inputs:
+              targetPath: '$(System.DefaultWorkingDirectory)/.terraform.lock.hcl'
+              artifact: 'terraform-lock' 
 
       - job: terraform_fmt
         steps: 
@@ -28,6 +39,18 @@ stages:
         dependsOn: terraform_init
         steps:
           - checkout: self
+
+          #download previously published artifacts
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              artifact: 'terraform_init_artifact'
+              targetPath: '$(System.DefaultWorkingDirectory)/.terraform'
+
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              artifact: 'terraform-lock'
+              targetPath: '$(System.DefaultWorkingDirectory)/.terraform.lock.hcl'
+                  
           - script: |
               terraform validate
               
