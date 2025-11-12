@@ -69,7 +69,7 @@ stages:
         dependsOn: tf_init
         steps:
           # - checkout: self
-          - task: DownloadBuildArtifacts
+          - task: DownloadBuildArtifacts@0
             inputs:
               buildType: 'current'
               downloadType: 'single'
