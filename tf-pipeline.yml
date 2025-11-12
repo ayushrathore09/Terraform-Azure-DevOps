@@ -81,7 +81,7 @@ stages:
               ARM_TENANT_ID: $(ARM_TENANT_ID)
               ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
 
-            task: PublishBuildArtifacts@1
+          - task: PublishBuildArtifacts@1
             inputs:
               PathtoPublish: '$(Build.SourcesDirectory)'
               ArtifactName: 'tf_plan_file'
@@ -96,7 +96,7 @@ stages:
       - job: tf_apply
         steps:
           - checkout: self
-          - task: DownloadBuildArtifacts
+          - task: DownloadBuildArtifacts@0
             inputs:
               buildType: 'current'
               downloadType: 'single'
