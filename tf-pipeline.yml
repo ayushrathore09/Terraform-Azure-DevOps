@@ -40,7 +40,7 @@ stages:
               terraform fmt -check
 
       - job: terraform_validate
-        dependsOn: terraform_init
+        dependsOn: tf_init
         steps:
           - checkout: self
           #download previously published artifacts 
