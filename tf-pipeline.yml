@@ -68,7 +68,7 @@ stages:
       - job: tf_plan
         dependsOn: tf_init
         steps:
-          # - checkout: self
+          - checkout: self
           - task: DownloadBuildArtifacts@0
             inputs:
               buildType: 'current'
@@ -83,6 +83,12 @@ stages:
               echo "creating the terraform plan"
               terraform plan -out=tfplan
               terraform show -no-color tfplan > tfplan_output.txt
+
+            env:
+              ARM_CLIENT_ID: $(ARM_CLIENT_ID)
+              ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+              ARM_TENANT_ID: $(ARM_TENANT_ID)
+              ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)  
               
 
 
