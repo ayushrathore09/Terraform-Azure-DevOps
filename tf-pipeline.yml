@@ -77,10 +77,11 @@ stages:
               downloadPath: '$(Build.SourcesDirectory)/terraform'
 
           - script:
-              move "$(Build.SourcesDirectory)\terraform\terraform_init_artifact\**" "$(Build.SourcesDirectory)\" 
+              move "$(Build.SourcesDirectory)\terraform\terraform_init_artifact\*" "$(Build.SourcesDirectory)\" -Force
 
           - script: |
               echo "creating the terraform plan"
+              
               terraform plan -out=tfplan
               terraform show -no-color tfplan > tfplan_output.txt
 
