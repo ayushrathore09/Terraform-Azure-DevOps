@@ -19,15 +19,17 @@ stages:
               terraform init
          
           # publish .terraform and .terraform.lock.hcl as pipeline artifacts
-          - task: PublishPipelineArtifacts@1
+          - task: PublishBuildArtifacts@1
             inputs:
-              targetPath: '$(System.DefaultWorkingDirectory)/.terraform'
-              artifact: 'terraform_init_artifact'
+              PathtoPublish: 'terraform/.terraform'
+              ArtifactName: 'tferraform_init_artifact'
+              publishLocation: 'Container'
 
-          - task: PublishPipelineArtifact@1
+          - task: PublishBuildArtifact@1
             inputs:
-              targetPath: '$(System.DefaultWorkingDirectory)/.terraform.lock.hcl'
-              artifact: 'terraform-lock' 
+              PathtoPublish: 'terraform/.terraform.lock.hcl'
+              ArtifactName: 'tf-lock'
+              publishLocation: 'Container'
 
       - job: terraform_fmt
         steps: 
