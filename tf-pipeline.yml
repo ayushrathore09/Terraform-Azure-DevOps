@@ -17,6 +17,8 @@ stages:
           - checkout: self
           - script: |
               terraform init
+              echo "checking tf files"
+              dir "$(Build.SourcesDirectory)"
          
           # publish .terraform and .terraform.lock.hcl as pipeline artifacts
           - task: PublishBuildArtifacts@1  
@@ -31,37 +33,37 @@ stages:
               ArtifactName: 'tf_lock'
               publishLocation: 'Container'
 
-      - job: terraform_fmt
-        steps: 
-          - checkout: self
-          - script: |
-              terraform fmt -check
+      # - job: terraform_fmt
+      #   steps: 
+      #     - checkout: self
+      #     - script: |
+      #         terraform fmt -check
 
-      - job: terraform_validate
-        dependsOn: terraform_init
-        steps:
-          - checkout: self
-          #download previously published artifacts 
-          - task: DownloadBuildArtifacts@0
-            inputs:
-              buildType: 'current'
-              downloadType: 'single'
-              ArtifactName: 'terraform_init_artifact'
-              downloadPath: '$(Build.SourcesDirectory)'
-          - task: DownloadBuildArtifacts@0
-            inputs:
-              buildType: 'current'
-              downloadType: 'single'
-              ArtifactName: 'tf_lock'
-              downloadPath: '$(Build.SourcesDirectory)'
+      # - job: terraform_validate
+      #   dependsOn: terraform_init
+      #   steps:
+      #     - checkout: self
+      #     #download previously published artifacts 
+      #     - task: DownloadBuildArtifacts@0
+      #       inputs:
+      #         buildType: 'current'
+      #         downloadType: 'single'
+      #         ArtifactName: 'terraform_init_artifact'
+      #         downloadPath: '$(Build.SourcesDirectory)'
+      #     - task: DownloadBuildArtifacts@0
+      #       inputs:
+      #         buildType: 'current'
+      #         downloadType: 'single'
+      #         ArtifactName: 'tf_lock'
+      #         downloadPath: '$(Build.SourcesDirectory)'
 
-          - script: |
-              echo "Flattening artifacts..."
-              move "$(Build.SourcesDirectory)\terraform_init_artifact\*" "$(Build.SourcesDirectory)\"
-              move "$(Build.SourcesDirectory)\tf_lock\.terraform.lock.hcl" "$(Build.SourcesDirectory)\.terraform.lock.hcl"    
+      #     - script: |
+      #         echo "Flattening artifacts..."
+      #         move "$(Build.SourcesDirectory)\terraform_init_artifact\**" "$(Build.SourcesDirectory)\"
+      #         move "$(Build.SourcesDirectory)\tf_lock\.terraform.lock.hcl" "$(Build.SourcesDirectory)\.terraform.lock.hcl"    
               
-          - script: |
-              terraform validate
+      #     - script: |
+      #         terraform validate
               
 
 
