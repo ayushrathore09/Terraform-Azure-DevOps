@@ -68,7 +68,14 @@ stages:
       - job: tf_plan
         dependsOn: tf_init
         steps:
-          - checkout: self
+          # - checkout: self
+          - task: DownloadBuildArtifacts
+            inputs:
+              buildType: 'current'
+              downloadType: 'single'
+              ArtifactName: 'terraform_init_artifact'
+              downloadPath: '$(Build.SourcesDirectory)'
+
           - script: |
               echo "creating the terraform plan"
               terraform plan -out=tfplan
