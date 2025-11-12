@@ -76,8 +76,9 @@ stages:
               ArtifactName: 'terraform_init_artifact'
               downloadPath: '$(Build.SourcesDirectory)/terraform'
 
-          - powershell: |
-              Move-Item "$(Build.SourcesDirectory)\terraform\terraform_init_artifact\*" "$(Build.SourcesDirectory)\" -Force
+          - script:
+              move "$(Build.SourcesDirectory)\terraform\terraform_init_artifact\.terraform" "$(Build.SourcesDirectory)\"
+              move "$(Build.SourcesDirectory)\terraform\terraform_init_artifact\.terraform.lock.hcl" "$(Build.SourcesDirectory)\"
 
           - script: |
               echo "creating the terraform plan"
