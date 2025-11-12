@@ -90,6 +90,7 @@ stages:
 
   - stage: tf_apply
     dependsOn: tf_plan
+    condition: succeeded()
     environment: 'tf-apply'
     displayName: 'terraform apply'
     jobs:
