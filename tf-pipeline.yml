@@ -94,7 +94,7 @@ stages:
     
     displayName: 'terraform apply'
     jobs:
-      - job: tf_apply_dev
+      - deployment: tf_apply_dev
         environment: 'tf-apply-dev'
         steps:
           - checkout: self
