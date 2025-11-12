@@ -54,6 +54,11 @@ stages:
               downloadType: 'single'
               ArtifactName: 'tf_lock'
               downloadPath: '$(Build.SourcesDirectory)'
+
+          - script: |
+              echo "Flattening artifacts..."
+              move "$(Build.SourcesDirectory)\terraform_init_artifact\.terraform" "$(Build.SourcesDirectory)\.terraform"
+              move "$(Build.SourcesDirectory)\tf_lock\.terraform.lock.hcl" "$(Build.SourcesDirectory)\.terraform.lock.hcl"    
               
           - script: |
               terraform validate
