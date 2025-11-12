@@ -91,29 +91,32 @@ stages:
   - stage: tf_apply
     dependsOn: tf_plan
     condition: succeeded()
-    
     displayName: 'terraform apply'
+    
     jobs:
       - deployment: tf_apply_dev
         environment: 'tf-apply-dev'
-        steps:
-          - checkout: self
-          - task: DownloadBuildArtifacts@0
-            inputs:
-              buildType: 'current'
-              downloadType: 'single'
-              ArtifactName: 'terraform_plan_artifact'
-              downloadPath: '$(Build.SourcesDirectory)/terraform'
+        strategy:
+          runOnce:
+            deploy: 
+              steps:
+                - checkout: self
+                - task: DownloadBuildArtifacts@0
+                  inputs:
+                    buildType: 'current'
+                    downloadType: 'single'
+                    ArtifactName: 'terraform_plan_artifact'
+                    downloadPath: '$(Build.SourcesDirectory)/terraform'
 
-          - script: |
-              cd "$(Build.SourcesDirectory)\terraform\"
-              echo "Applying Terraform Plan..."
-              terraform apply -tfplan -auto-approve
+                - script: |
+                    cd "$(Build.SourcesDirectory)\terraform\"
+                    echo "Applying Terraform Plan..."
+                    terraform apply -auto-approve tfplan
 
-            env:
-              ARM_CLIENT_ID: $(ARM_CLIENT_ID)
-              ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
-              ARM_TENANT_ID: $(ARM_TENANT_ID)
-              ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)  
+                  env:
+                    ARM_CLIENT_ID: $(ARM_CLIENT_ID)
+                    ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
+                    ARM_TENANT_ID: $(ARM_TENANT_ID)
+                    ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)  
 
 
