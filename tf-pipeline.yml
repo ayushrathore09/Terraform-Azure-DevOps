@@ -27,11 +27,11 @@ stages:
               ArtifactName: 'terraform_init_artifact'
               publishLocation: 'Container'
 
-          - task: PublishBuildArtifacts@1  
-            inputs:
-              PathtoPublish: '$(Build.SourcesDirectory)/.terraform.lock.hcl'
-              ArtifactName: 'tf_lock'
-              publishLocation: 'Container'
+          # - task: PublishBuildArtifacts@1  
+          #   inputs:
+          #     PathtoPublish: '$(Build.SourcesDirectory)/.terraform.lock.hcl'
+          #     ArtifactName: 'tf_lock'
+          #     publishLocation: 'Container'
 
       - job: tf_fmt
         steps: 
@@ -50,20 +50,22 @@ stages:
               downloadType: 'single'
               ArtifactName: 'terraform_init_artifact'
               downloadPath: '$(Build.SourcesDirectory)/terraform'
-          - task: DownloadBuildArtifacts@0
-            inputs:
-              buildType: 'current'
-              downloadType: 'single'
-              ArtifactName: 'tf_lock'
-              downloadPath: '$(Build.SourcesDirectory)'
+          # - task: DownloadBuildArtifacts@0
+          #   inputs:
+          #     buildType: 'current'
+          #     downloadType: 'single'
+          #     ArtifactName: 'tf_lock'
+          #     downloadPath: '$(Build.SourcesDirectory)'
 
           - script: |
-              echo "Flattening artifacts..."
-              move "$(Build.SourcesDirectory)\terraform\terraform_init_artifact\.terraform" "$(Build.SourcesDirectory)\"
-              move "$(Build.SourcesDirectory)\tf_lock\.terraform.lock.hcl" "$(Build.SourcesDirectory)\.terraform.lock.hcl"    
-              
-          - script: |
+              echo "entering workspace..."
+              cd "$(Build.SourcesDirectory)\terraform\terraform_init_artifact\"
               terraform validate
+          #     move "$(Build.SourcesDirectory)\terraform\terraform_init_artifact\.terraform" "$(Build.SourcesDirectory)\"
+          #     move "$(Build.SourcesDirectory)\tf_lock\.terraform.lock.hcl" "$(Build.SourcesDirectory)\.terraform.lock.hcl"    
+              
+          # - script: |
+          #     terraform validate
 
       - job: tf_plan
         dependsOn: tf_init
@@ -92,7 +94,7 @@ stages:
     dependsOn: tf_plan
     condition: succeeded()
     displayName: 'terraform apply'
-    
+
     jobs:
       - deployment: tf_apply_dev
         environment: 'tf-apply-dev'
@@ -105,11 +107,11 @@ stages:
                   inputs:
                     buildType: 'current'
                     downloadType: 'single'
-                    ArtifactName: 'terraform_plan_artifact'
+                    ArtifactName: 'tf_plan_file'
                     downloadPath: '$(Build.SourcesDirectory)/terraform'
 
                 - script: |
-                    cd "$(Build.SourcesDirectory)\terraform\"
+                    cd "$(Build.SourcesDirectory)\terraform\tf_plan_file"
                     echo "Applying Terraform Plan..."
                     terraform apply -auto-approve tfplan
 
