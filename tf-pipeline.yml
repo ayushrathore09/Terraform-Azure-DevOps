@@ -114,6 +114,7 @@ stages:
                     cd "$(Build.SourcesDirectory)\terraform\tf_plan_file"
                     echo "Applying Terraform Plan..."
                     terraform apply -auto-approve tfplan
+                    terraform destroy -auto-approve 
 
                   env:
                     ARM_CLIENT_ID: $(ARM_CLIENT_ID)
