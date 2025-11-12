@@ -91,10 +91,11 @@ stages:
   - stage: tf_apply
     dependsOn: tf_plan
     condition: succeeded()
-    environment: 'tf-apply'
+    
     displayName: 'terraform apply'
     jobs:
-      - job: tf_apply
+      - job: tf_apply_dev
+        environment: 'tf-apply-dev'
         steps:
           - checkout: self
           - task: DownloadBuildArtifacts@0
