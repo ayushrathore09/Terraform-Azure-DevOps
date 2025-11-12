@@ -25,7 +25,7 @@ stages:
               ArtifactName: 'tferraform_init_artifact'
               publishLocation: 'Container'
 
-          - task: PublishBuildArtifact@1
+          - task: PublishBuildArtifacts@1
             inputs:
               PathtoPublish: 'terraform/.terraform.lock.hcl'
               ArtifactName: 'tf-lock'
