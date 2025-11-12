@@ -68,21 +68,21 @@ stages:
       - job: tf_plan
         dependsOn: tf_init
         steps:
-          - checkout: self
-          - task: DownloadBuildArtifacts@0
-            inputs:
-              buildType: 'current'
-              downloadType: 'single'
-              ArtifactName: 'terraform_init_artifact'
-              downloadPath: '$(Build.SourcesDirectory)/terraform'
+          # - checkout: self
+          # - task: DownloadBuildArtifacts@0
+          #   inputs:
+          #     buildType: 'current'
+          #     downloadType: 'single'
+          #     ArtifactName: 'terraform_init_artifact'
+          #     downloadPath: '$(Build.SourcesDirectory)/terraform'
 
-          - script:
-              move "$(Build.SourcesDirectory)\terraform\terraform_init_artifact\.terraform" "$(Build.SourcesDirectory)\"
-              move "$(Build.SourcesDirectory)\terraform\terraform_init_artifact\.terraform.lock.hcl" "$(Build.SourcesDirectory)\"
+          # - script:
+          #     move "$(Build.SourcesDirectory)\terraform\terraform_init_artifact\.terraform" "$(Build.SourcesDirectory)\"
+          #     move "$(Build.SourcesDirectory)\terraform\terraform_init_artifact\.terraform.lock.hcl" "$(Build.SourcesDirectory)\"
 
           - script: |
               echo "creating the terraform plan"
-              
+              terrform init -reconfigure -input=false
               terraform plan -out=tfplan
               terraform show -no-color tfplan > tfplan_output.txt
 
