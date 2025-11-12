@@ -21,13 +21,13 @@ stages:
           # publish .terraform and .terraform.lock.hcl as pipeline artifacts
           - task: PublishBuildArtifacts@1
             inputs:
-              PathtoPublish: 'terraform/.terraform'
+              PathtoPublish: '$(Build.SourcesDirectory)/.terraform'
               ArtifactName: 'tferraform_init_artifact'
               publishLocation: 'Container'
 
           - task: PublishBuildArtifacts@1
             inputs:
-              PathtoPublish: 'terraform/.terraform.lock.hcl'
+              PathtoPublish: '$(Build.SourcesDirectory)/.terraform.lock.hcl'
               ArtifactName: 'tf-lock'
               publishLocation: 'Container'
 
