@@ -74,7 +74,10 @@ stages:
               buildType: 'current'
               downloadType: 'single'
               ArtifactName: 'terraform_init_artifact'
-              downloadPath: '$(Build.SourcesDirectory)'
+              downloadPath: '$(Build.SourcesDirectory)/terraform'
+
+          - script:
+              move "$(Build.SourcesDirectory)\terraform\terraform_init_artifact\**" "$(Build.SourcesDirectory)\" 
 
           - script: |
               echo "creating the terraform plan"
