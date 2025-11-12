@@ -11,7 +11,7 @@ pool:
 stages:
   - stage: tf_plan
     displayName: "Terraform plan"
-    jobs:   # each stage can have multiple jobs can be run in parallel or 
+    jobs:   # each stage can have multiple jobs can be run in parallel or sequentially with condition
       - job: terraform_init
         steps:
           - checkout: self
@@ -19,13 +19,13 @@ stages:
               terraform init
          
           # publish .terraform and .terraform.lock.hcl as pipeline artifacts
-          - task: PublishBuildArtifacts@1
+          - task: PublishBuildArtifacts@1  
             inputs:
               PathtoPublish: '$(Build.SourcesDirectory)/.terraform'
               ArtifactName: 'tferraform_init_artifact'
               publishLocation: 'Container'
 
-          - task: PublishBuildArtifacts@1
+          - task: PublishBuildArtifacts@1  
             inputs:
               PathtoPublish: '$(Build.SourcesDirectory)/.terraform.lock.hcl'
               ArtifactName: 'tf-lock'
@@ -41,20 +41,22 @@ stages:
         dependsOn: terraform_init
         steps:
           - checkout: self
-
-          # #download previously published artifacts
-          # - task: DownloadPipelineArtifact@2
-          #   inputs:
-          #     artifact: 'terraform_init_artifact'
-          #     targetPath: '$(System.DefaultWorkingDirectory)/.terraform'
-
-          # - task: DownloadPipelineArtifact@2
-          #   inputs:
-          #     artifact: 'terraform-lock'
-          #     targetPath: '$(System.DefaultWorkingDirectory)/.terraform.lock.hcl'
-
-          # - script: |
-          #     terraform validate
+          #download previously published artifacts 
+          - task: DownloadBuildArtifacts@0
+            inputs:
+              buildType: 'current'
+              downloadType: 'single'
+              ArtifactsName: 'tferraform_init_artifact'
+              downloadPath: '$(Pipeline.Workspace)\artifacts'
+          - task: DownloadBuildArtifacts@0
+            inputs:
+              buildType: 'current'
+              downloadType: 'single'
+              ArtifactsName: 'tf-lock'
+              downloadPath: '$(Pipeline.Workspace)\artifacts'
+              
+          - script: |
+              terraform validate
               
 
 
