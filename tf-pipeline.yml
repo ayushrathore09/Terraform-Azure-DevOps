@@ -22,13 +22,13 @@ stages:
           - task: PublishBuildArtifacts@1  
             inputs:
               PathtoPublish: '$(Build.SourcesDirectory)/.terraform'
-              ArtifactName: 'tferraform_init_artifact'
+              ArtifactName: 'terraform_init_artifact'
               publishLocation: 'Container'
 
           - task: PublishBuildArtifacts@1  
             inputs:
               PathtoPublish: '$(Build.SourcesDirectory)/.terraform.lock.hcl'
-              ArtifactName: 'tf-lock'
+              ArtifactName: 'tf_lock'
               publishLocation: 'Container'
 
       - job: terraform_fmt
@@ -46,13 +46,13 @@ stages:
             inputs:
               buildType: 'current'
               downloadType: 'single'
-              ArtifactsName: 'tferraform_init_artifact'
+              ArtifactName: 'terraform_init_artifact'
               downloadPath: '$(Build.SourcesDirectory)'
           - task: DownloadBuildArtifacts@0
             inputs:
               buildType: 'current'
               downloadType: 'single'
-              ArtifactsName: 'tf-lock'
+              ArtifactName: 'tf_lock'
               downloadPath: '$(Build.SourcesDirectory)'
               
           - script: |
