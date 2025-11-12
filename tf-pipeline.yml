@@ -68,7 +68,7 @@ stages:
       - job: tf_plan
         dependsOn: tf_init
         steps:
-          # - checkout: self
+          - checkout: self
           # - task: DownloadBuildArtifacts@0
           #   inputs:
           #     buildType: 'current'
