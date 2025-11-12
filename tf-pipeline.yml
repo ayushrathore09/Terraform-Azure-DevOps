@@ -47,13 +47,13 @@ stages:
               buildType: 'current'
               downloadType: 'single'
               ArtifactsName: 'tferraform_init_artifact'
-              downloadPath: '$(Pipeline.Workspace)\artifacts'
+              downloadPath: '$(Build.SourcesDirectory)'
           - task: DownloadBuildArtifacts@0
             inputs:
               buildType: 'current'
               downloadType: 'single'
               ArtifactsName: 'tf-lock'
-              downloadPath: '$(Pipeline.Workspace)\artifacts'
+              downloadPath: '$(Build.SourcesDirectory)'
               
           - script: |
               terraform validate
