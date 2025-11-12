@@ -12,7 +12,7 @@ stages:
   - stage: tf_plan
     displayName: "Terraform plan"
     jobs:   # each stage can have multiple jobs can be run in parallel or sequentially with condition
-      - job: terraform_init
+      - job: tf_init
         steps:
           - checkout: self
           - script: |
@@ -33,7 +33,7 @@ stages:
               ArtifactName: 'tf_lock'
               publishLocation: 'Container'
 
-      - job: terraform_fmt
+      - job: tf_fmt
         steps: 
           - checkout: self
           - script: |
@@ -64,6 +64,15 @@ stages:
               
           - script: |
               terraform validate
+
+      - job: tf_plan
+        dependsOn: tf_init
+        steps:
+          - checkout: self
+          - script: |
+              echo "creating the terraform plan"
+              terraform plan -out=tfplan
+              terraform show -no-color tfplan > tfplan_output.txt
               
 
 
