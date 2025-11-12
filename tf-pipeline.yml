@@ -82,7 +82,7 @@ stages:
 
           - script: |
               echo "creating the terraform plan"
-              terrform init -reconfigure -input=false
+              terraform init -reconfigure -input=false
               terraform plan -out=tfplan
               terraform show -no-color tfplan > tfplan_output.txt
 
