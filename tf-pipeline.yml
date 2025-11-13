@@ -1,9 +1,13 @@
-trigger:
+trigger:  # ci trigger to deploy the actual changes
   branches:
     include:
-      #- main
-      - dev
-  
+      - main
+
+pr:  # pr trigger for validation pipeline for dry run
+  branches:
+    include:
+      - main
+      
 pool: 
   name: default
   demands: agent.name -equals ayushagent  #strictly to run on specific agent
