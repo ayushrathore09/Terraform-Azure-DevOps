@@ -1,9 +1,13 @@
-trigger:
+trigger:  # ci trigger to deploy the actual changes
   branches:
     include:
-      #- main
-      - dev
-  
+      - main
+
+pr:  # pr trigger for validation pipeline for dry run
+  branches:
+    include:
+      - main
+      
 pool: 
   name: default
   demands: agent.name -equals ayushagent  #strictly to run on specific agent
@@ -27,12 +31,6 @@ stages:
               ArtifactName: 'terraform_init_artifact'
               publishLocation: 'Container'
 
-          # - task: PublishBuildArtifacts@1  
-          #   inputs:
-          #     PathtoPublish: '$(Build.SourcesDirectory)/.terraform.lock.hcl'
-          #     ArtifactName: 'tf_lock'
-          #     publishLocation: 'Container'
-
       - job: tf_fmt
         steps: 
           - checkout: self
@@ -50,22 +48,11 @@ stages:
               downloadType: 'single'
               ArtifactName: 'terraform_init_artifact'
               downloadPath: '$(Build.SourcesDirectory)/terraform'
-          # - task: DownloadBuildArtifacts@0
-          #   inputs:
-          #     buildType: 'current'
-          #     downloadType: 'single'
-          #     ArtifactName: 'tf_lock'
-          #     downloadPath: '$(Build.SourcesDirectory)'
 
           - script: |
               echo "entering workspace..."
               cd "$(Build.SourcesDirectory)\terraform\terraform_init_artifact\"
               terraform validate
-          #     move "$(Build.SourcesDirectory)\terraform\terraform_init_artifact\.terraform" "$(Build.SourcesDirectory)\"
-          #     move "$(Build.SourcesDirectory)\tf_lock\.terraform.lock.hcl" "$(Build.SourcesDirectory)\.terraform.lock.hcl"    
-              
-          # - script: |
-          #     terraform validate
 
       - job: tf_plan
         dependsOn: tf_init
@@ -89,10 +76,14 @@ stages:
               ArtifactName: 'tf_plan_file'
               publishLocation: 'Container'
 ########################################### tf apply ###########################################
+# Have to add some condition in this tf-apply stage so that pr validation wont be able to run this stage.
 
   - stage: tf_apply
     dependsOn: tf_plan
-    condition: succeeded()
+    condition: and(
+      succeeded(),
+      eq(variables['Build.SourceBranch'],'refs/head/main'))
+    
     displayName: 'terraform apply'
 
     jobs:
