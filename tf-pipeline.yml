@@ -82,7 +82,7 @@ stages:
     dependsOn: tf_plan
     condition: and(
       succeeded(),
-      eq(variables['Build.SourceBranch'],'refs/head/main'))
+      eq(variables['Build.SourceBranch'],'refs/heads/main'))
     
     displayName: 'terraform apply'
 
